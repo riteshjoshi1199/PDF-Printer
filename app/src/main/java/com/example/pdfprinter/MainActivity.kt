@@ -13,7 +13,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.PdfPrinter.R
 import com.example.PdfPrinter.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 
 class MainActivity: AppCompatActivity() {
 
@@ -27,11 +26,11 @@ class MainActivity: AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.appBarMain.toolbar)
 
-        binding.appBarMain.fab?.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
-        }
+        /*   binding.appBarMain.fab?.setOnClickListener { view ->
+               Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                   .setAction("Action", null)
+                   .setAnchorView(R.id.fab).show()
+           }*/
 
         val navHostFragment = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_content_main) as NavHostFragment?)!!
         val navController = navHostFragment.navController
