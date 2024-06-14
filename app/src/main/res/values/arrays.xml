@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="date_array">
+      <item>1jan</item>
+      <item>2jan</item>
+      <item>3jan</item>
+      <item>4jan</item>
+      <item>5jan</item>
+    </string-array>
+
+    <string-array name="session_array">
+        <item>1session</item>
+        <item>2session</item>
+        <item>3session</item>
+        <item>4session</item>
+        <item>5session</item>
+    </string-array>
+</resources>

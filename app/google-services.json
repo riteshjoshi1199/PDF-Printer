@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "892704681705",
+    "project_id": "PdfPrinter-assignment",
+    "storage_bucket": "PdfPrinter-assignment.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892704681705:android:f9946c87714ec4d60d0a78",
+        "android_client_info": {
+          "package_name": "com.example.PdfPrinter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzKd2gC9dg8MjMqGAGNvkayxG0xKw0o8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

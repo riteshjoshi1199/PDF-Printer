@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.transform.TransformFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Date and Session Selectors -->
+            <TextView
+                android:id="@+id/welcome_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Hello, Mr. Rashi, here is your performance."
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/date_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:entries="@array/date_array"
+                    android:padding="16dp" />
+
+                <Spinner
+                    android:id="@+id/session_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:entries="@array/session_array"
+                    android:padding="16dp" />
+            </LinearLayout>
+
+
+            <!-- Performance Metrics -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+
+                <!-- Monsoon Image -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/monsoon_image"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/raining"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
+
+                <!-- Assisted Text -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/assisted_text"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/orange"
+                    android:src="@drawable/avatar_16"
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Large" />
+
+                <!-- Session Time -->
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/session_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:max="100"
+                    android:progress="80" />
+
+                <!-- Movement Score -->
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/movement_score"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:max="100"
+                    android:progress="80" />
+
+                <!-- Success Rate -->
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/success_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="88" />
+            </LinearLayout>
+
+            <!-- Graphs and Data -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="performance chart"
+                    android:textSize="18sp" />
+
+                <!-- ROM -->
+
+
+                <TextView
+                    android:id="@+id/rom_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="ROM"
+                    android:textSize="18sp" />
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/movement_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginBottom="4dp" />
+
+                <!-- History Chart -->
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/history_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/download_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/orange"
+                android:text="Download in Performance" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
