@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp">
+    android:layout_marginEnd="16dp">
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingVertical="8dp"
-        android:text="Session Time"
+        android:text="Movement Score"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -30,7 +30,7 @@
 
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/session_time"
+            android:id="@+id/progress_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:max="100"
@@ -41,6 +41,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/progress_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="4dp"

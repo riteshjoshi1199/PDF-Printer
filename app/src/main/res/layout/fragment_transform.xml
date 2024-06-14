@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?><!--<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.transform.TransformFragment">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -34,7 +34,7 @@
                     android:gravity="center"
                     android:minHeight="40dp"
                     android:padding="16dp"
-                    android:text="Hello, Mr. Rashi, here is your performance."
+                    android:text="Hello, Mr. Ritesh, here is your performance."
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -179,40 +179,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <LinearLayout
-                        android:id="@+id/end_action_ll"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:background="#FFFFFF"
-                        android:elevation="10dp"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:translationZ="8dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/performance_matrix_hsv"
-                        app:layout_constraintEnd_toEndOf="@+id/performance_matrix_hsv"
-                        app:layout_constraintTop_toTopOf="@+id/performance_matrix_hsv">
-
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_delete" />
-
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
-                            android:background="@android:color/transparent"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_reload" />
-
-                    </LinearLayout>
-
-
                     <!-- Performance Metrics -->
                     <HorizontalScrollView
                         android:id="@+id/performance_matrix_hsv"
@@ -226,6 +192,7 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <LinearLayout
+                            android:id="@+id/performance_ll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingVertical="16dp">
@@ -236,7 +203,6 @@
 
                             <include layout="@layout/layout_single_hv_item" />
 
-                            <include layout="@layout/layout_single_hv_item" />
                         </LinearLayout>
 
                     </HorizontalScrollView>
