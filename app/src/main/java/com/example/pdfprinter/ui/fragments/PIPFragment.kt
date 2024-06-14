@@ -1,11 +1,11 @@
 package com.example.pdfprinter.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pdfprinter.R
+import androidx.fragment.app.Fragment
+import com.example.PdfPrinter.R
 
 class PIPFragment: Fragment() {
     override fun onCreateView(
