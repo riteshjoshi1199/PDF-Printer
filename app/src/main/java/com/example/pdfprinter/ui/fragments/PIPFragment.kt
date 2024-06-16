@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.PdfPrinter.R
+import com.example.pdfprinter.R
 
 class PIPFragment: Fragment() {
     override fun onCreateView(

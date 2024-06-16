@@ -20,12 +20,12 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.PdfPrinter.databinding.FragmentMCPBinding
-import com.example.PdfPrinter.databinding.LayoutPdfBinding
-import com.example.pdfprinter.models.HistoryEntry
-import com.example.pdfprinter.models.MCPPDFModel
-import com.example.pdfprinter.models.MovementEntry
-import com.example.pdfprinter.ui.transform.TransformViewModel
+import com.example.pdfprinter.data.models.HistoricalDataModel
+import com.example.pdfprinter.data.models.HistoryEntry
+import com.example.pdfprinter.data.models.MCPPDFModel
+import com.example.pdfprinter.data.models.MovementEntry
+import com.example.pdfprinter.databinding.FragmentMCPBinding
+import com.example.pdfprinter.databinding.LayoutPdfBinding
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -43,7 +43,7 @@ import kotlin.time.Duration.Companion.seconds
 
 class MCPFragment: Fragment() {
     private lateinit var binding: FragmentMCPBinding
-    private val transformViewModel: TransformViewModel by activityViewModels()
+    private val mainActivityViewModel: MainActivityViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,22 +57,21 @@ class MCPFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-        transformViewModel.pdfModelLiveData.observe(viewLifecycleOwner) { it ->
+        mainActivityViewModel.selectedSessionDataLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 binding.romLayout.title.text = "ROM"
                 binding.romLayout.progressTv.text = it.rom.toString() + "`"
-                val romInPercent = (it.rom / 100.0) * 100
-                Log.d(TAG, "onViewCreated romInPercent: $romInPercent")
+                val romInPercent = (it.rom / 100.0) * 100.0
                 binding.romLayout.progressBar.progress = if (romInPercent >= 100) 100 else romInPercent.toInt()
-
                 drawMovementGraph(binding.movementChart, it.movementChartData)
-                drawHistoryGraph(binding.historyChart, it.historyChartData)
             }
         }
 
-
+        mainActivityViewModel.historicalDataLiveData.observe(viewLifecycleOwner) {
+            it?.let {
+                drawHistoryGraph(binding.historyChart, it.historicalData)
+            }
+        }
 
         binding.fab.setOnClickListener {
             if (hasStoragePermission(requireContext())) {
@@ -86,13 +85,18 @@ class MCPFragment: Fragment() {
     private fun fetchDataForPdf() {
         // we should use observer, I am using directly because it is already observed
         // and has value because of activityViewModels
-        val model = transformViewModel.pdfModelLiveData.value
+        val selectedSessionData = mainActivityViewModel.selectedSessionDataLiveData.value
+        val historicalData = mainActivityViewModel.historicalDataLiveData.value
+        if (selectedSessionData == null || historicalData == null)
+            return
+
         viewLifecycleOwner.lifecycleScope.launch {
             try {
-                model?.let { it ->
+                binding.fab.visibility = View.GONE
+                (Pair(selectedSessionData, historicalData)).let { it ->
                     Log.d(TAG, "fetchDataForPdf: $it")
                     Toast.makeText(requireContext(), "Please wait, creating PDF file", Toast.LENGTH_SHORT).show()
-                    createAndExportPdf(it)?.let { pdfFile ->
+                    createAndExportPdf(it.first, it.second)?.let { pdfFile ->
                         Log.d(TAG, "fetchDataForPdf: $pdfFile")
                         delay(2.seconds)
                         Snackbar.make(binding.root, "Pdf Created", Snackbar.LENGTH_LONG)
@@ -110,6 +114,8 @@ class MCPFragment: Fragment() {
                                     Toast.makeText(requireContext(), "No PDF Viewer Found", Toast.LENGTH_SHORT).show()
                                 }
                             }.show()
+
+                        binding.fab.visibility = View.VISIBLE
                     } ?: run {
                         Log.d(TAG, "fetchDataForPdf: file not created")
                     }
@@ -120,8 +126,8 @@ class MCPFragment: Fragment() {
         }
     }
 
-    private fun createAndExportPdf(model: MCPPDFModel): File? {
-        setContentToPdf(model).let { pdfView ->
+    private fun createAndExportPdf(model: MCPPDFModel, historicalData: HistoricalDataModel): File? {
+        setContentToPdf(model, historicalData).let { pdfView ->
             pdfView.measure(
                 View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(2000, View.MeasureSpec.EXACTLY)
@@ -154,7 +160,7 @@ class MCPFragment: Fragment() {
         }
     }
 
-    private fun setContentToPdf(model: MCPPDFModel): View {
+    private fun setContentToPdf(model: MCPPDFModel, historicalDataModel: HistoricalDataModel): View {
         val pdfViewBinding = LayoutPdfBinding.inflate(layoutInflater, null, false)
         pdfViewBinding.romLayout.title.text = "ROM"
         pdfViewBinding.romLayout.progressTv.text = model.rom.toString() + "`"
@@ -164,7 +170,7 @@ class MCPFragment: Fragment() {
 
         drawMovementGraph(pdfViewBinding.movementChart, model.movementChartData)
         pdfViewBinding.movementChart.invalidate()
-        drawHistoryGraph(pdfViewBinding.historyChart, model.historyChartData)
+        drawHistoryGraph(pdfViewBinding.historyChart, historicalDataModel.historicalData)
         pdfViewBinding.historyChart.invalidate()
 
         return pdfViewBinding.root
@@ -209,6 +215,8 @@ class MCPFragment: Fragment() {
     }
 
     private fun drawMovementGraph(lineChart: LineChart, movementChartData: List<MovementEntry>) {
+        Log.d(TAG, "drawMovementGraph: $movementChartData")
+
         val lineDataSet = LineDataSet(movementChartData, "Time(s)")
 
         lineDataSet.axisDependency = YAxis.AxisDependency.LEFT
@@ -259,8 +267,9 @@ class MCPFragment: Fragment() {
     }
 
     private fun drawHistoryGraph(lineChart: LineChart, historyChartData: List<HistoryEntry>) {
-        val lineDataSet = LineDataSet(historyChartData, "Date")
+        Log.d(TAG, "drawHistoryGraph: $historyChartData")
 
+        val lineDataSet = LineDataSet(historyChartData, "Date")
         lineDataSet.axisDependency = YAxis.AxisDependency.LEFT
         lineDataSet.isHighlightEnabled = true
         lineDataSet.lineWidth = 2f
@@ -286,16 +295,13 @@ class MCPFragment: Fragment() {
         lineChart.data = lineData
 
         val xAxisLabel = ArrayList<String>()
-        xAxisLabel.add("ROM(`)")
-        xAxisLabel.addAll(historyChartData.map { it.date.toString() })
+        xAxisLabel.addAll(historyChartData.map { it.date })
 
         val xAxis = lineChart.xAxis
         xAxis.axisMaximum = 5f
         xAxis.granularity = 1f
         xAxis.valueFormatter = object: IndexAxisValueFormatter(xAxisLabel) {
-            override fun getFormattedValue(value: Float): String {
-                return (value.toInt().toString() + " Jan")
-            }
+
         }
 
 

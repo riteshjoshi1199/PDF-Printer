@@ -3,6 +3,8 @@ package com.example.pdfprinter
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -10,14 +12,15 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.PdfPrinter.R
-import com.example.PdfPrinter.databinding.ActivityMainBinding
+import com.example.pdfprinter.databinding.ActivityMainBinding
+import com.example.pdfprinter.ui.fragments.MainActivityViewModel
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity: AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +40,8 @@ class MainActivity: AppCompatActivity() {
 
         binding.navView?.let {
             appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow, R.id.nav_settings),
+                R.id.nav_home, R.id.nav_pdf, R.id.nav_settings
+            ),
                 binding.drawerLayout
             )
             setupActionBarWithNavController(navController, appBarConfiguration)
@@ -46,7 +50,7 @@ class MainActivity: AppCompatActivity() {
 
         binding.appBarMain.contentMain.bottomNavView?.let {
             appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_transform, R.id.nav_reflow, R.id.nav_slideshow))
+                R.id.nav_home, R.id.nav_pdf, R.id.nav_settings))
             setupActionBarWithNavController(navController, appBarConfiguration)
             it.setupWithNavController(navController)
         }
@@ -67,9 +71,16 @@ class MainActivity: AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_settings -> {
-                val navController = findNavController(R.id.nav_host_fragment_content_main)
-                navController.navigate(R.id.nav_settings)
+            R.id.nav_reload -> {
+                try {
+                    mainActivityViewModel.getDataForThiSession()
+                } catch (error: Exception) {
+                    Toast.makeText(this, error.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            R.id.nav_pdf -> {
+                Toast.makeText(this, "Implement Later", Toast.LENGTH_SHORT).show()
             }
         }
         return super.onOptionsItemSelected(item)

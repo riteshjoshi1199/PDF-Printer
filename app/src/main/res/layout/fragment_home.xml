@@ -34,7 +34,6 @@
                     android:gravity="center"
                     android:minHeight="40dp"
                     android:padding="16dp"
-                    android:text="Hello, Mr. Ritesh, here is your performance."
                     android:textSize="18sp"
                     android:textStyle="bold" />
 

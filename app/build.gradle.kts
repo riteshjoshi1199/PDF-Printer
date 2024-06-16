@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.PdfPrinter"
+    namespace = "com.example.pdfprinter"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.PdfPrinter"
+        applicationId = "com.example.pdfprinter"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,6 +62,9 @@ dependencies {
     //firebase related
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation("com.google.firebase:firebase-database:20.0.5")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 
     //chart related
     implementation(libs.mpandroidchart)

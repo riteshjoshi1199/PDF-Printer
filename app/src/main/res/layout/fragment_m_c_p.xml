@@ -50,7 +50,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/movement_chart"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="250dp"
             android:layout_marginTop="8dp" />
 
 
@@ -68,7 +68,7 @@
         <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/history_chart"
             android:layout_width="match_parent"
-            android:layout_height="200dp" />
+            android:layout_height="250dp" />
     </LinearLayout>
 
         <!-- This CoordinatorLayout is to dodge the BottomNavigationView when the Snackbar is shown -->
