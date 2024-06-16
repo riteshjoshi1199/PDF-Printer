@@ -14,7 +14,6 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.pdfprinter.databinding.ActivityMainBinding
 import com.example.pdfprinter.ui.fragments.MainActivityViewModel
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity: AppCompatActivity() {
 
@@ -40,7 +39,7 @@ class MainActivity: AppCompatActivity() {
 
         binding.navView?.let {
             appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_pdf, R.id.nav_settings
+                R.id.nav_home, R.id.nav_settings
             ),
                 binding.drawerLayout
             )
@@ -50,7 +49,8 @@ class MainActivity: AppCompatActivity() {
 
         binding.appBarMain.contentMain.bottomNavView?.let {
             appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.nav_home, R.id.nav_pdf, R.id.nav_settings))
+                R.id.nav_home, R.id.nav_settings)
+            )
             setupActionBarWithNavController(navController, appBarConfiguration)
             it.setupWithNavController(navController)
         }
@@ -60,12 +60,13 @@ class MainActivity: AppCompatActivity() {
         val result = super.onCreateOptionsMenu(menu)
         // Using findViewById because NavigationView exists in different layout files
         // between w600dp and w1240dp
-        val navView: NavigationView? = findViewById(R.id.nav_view)
-        if (navView == null) {
+        //val navView: NavigationView? = findViewById(R.id.nav_view)
+        /*if (navView == null) {
             // The navigation drawer already has the items including the items in the overflow menu
             // We only inflate the overflow menu if the navigation drawer isn't visible
             menuInflater.inflate(R.menu.overflow, menu)
-        }
+        }*/
+        menuInflater.inflate(R.menu.overflow, menu)
         return result
     }
 
@@ -79,7 +80,7 @@ class MainActivity: AppCompatActivity() {
                 }
             }
 
-            R.id.nav_pdf -> {
+            R.id.nav_delete -> {
                 Toast.makeText(this, "Implement Later", Toast.LENGTH_SHORT).show()
             }
         }

@@ -129,8 +129,7 @@ class HomeFragment: Fragment() {
     private fun setupPerformanceView(mcpPDFModel: MCPPDFModel) {
         Log.d(TAG, "setupPerformanceView: $mcpPDFModel")
 
-        binding.assistedStatus!!.text = if (mcpPDFModel.isAssisted) "YES" else "NO"
-
+        binding.assistedStatus?.text = if (mcpPDFModel.isAssisted) "YES" else "NO"
         binding.performanceLl.removeAllViews()
         val sessionTimeItemBinding = LayoutSingleHvItemBinding.inflate(layoutInflater, binding.performanceLl, false)
         sessionTimeItemBinding.title.text = "Session Time"
